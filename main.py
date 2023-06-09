@@ -30,6 +30,9 @@ def predict_price():
         agent_fee,
         renovation,
     ]
+    for feature in row:
+        if feature is np.nan:
+            return 0
     row = np.array(row).reshape((1,-1))
     area_per_room = row[0][4] / row[0][2]
     living_area_ratio = row[0][6] / row[0][4]
