@@ -1,5 +1,4 @@
 FROM ubuntu:20.04
-MAINTAINER Kaminskiy Simon
 RUN apt-get update -y
 COPY . /opt/mle2e
 WORKDIR /opt/mle2e
