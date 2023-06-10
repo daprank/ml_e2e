@@ -30,9 +30,7 @@ def predict_price():
         agent_fee,
         renovation,
     ]
-    for feature in row:
-        if feature is np.nan:
-            return 0
+
     row = np.array(row).reshape((1,-1))
     area_per_room = row[0][4] / row[0][2]
     living_area_ratio = row[0][6] / row[0][4]
@@ -53,7 +51,6 @@ def predict_price():
 @app.route('/predict_price_v2', methods=['GET'])
 def predict_price_v2():
     model = joblib.load('model2.pkl')
-    imputer = joblib.load('imputer.pkl')
     scaler = joblib.load('scaler.pkl')
     args = request.args
     floor=args.get("floor", default=np.nan, type=int)
@@ -77,6 +74,9 @@ def predict_price_v2():
         agent_fee,
         renovation,
     ]
+    for feature in row:
+        if row is np.nan:
+            return 0
     row = np.array(row).reshape((1,-1))
     area_per_room = row[0][4] / row[0][2]
     living_area_ratio = row[0][6] / row[0][4]
@@ -88,7 +88,6 @@ def predict_price_v2():
     ]
     additional_features = np.array(additional_features)
     row = np.concatenate([row[0], additional_features]).reshape((1,-1))
-    row = imputer.transform(row)
     row = scaler.transform(row)
     predict = model.predict(row)
 
